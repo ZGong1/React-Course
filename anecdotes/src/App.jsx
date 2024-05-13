@@ -14,6 +14,8 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(new Uint8Array(8))
+  let maxIdx = votes.indexOf(Math.max(...votes));
+  //console.log("max index is", maxIdx)
 
 
   const onRandom = () => {
@@ -32,10 +34,15 @@ const App = () => {
 
   return (
     <div>
+    <h1>Anecdote of the day</h1>
       {anecdotes[selected]} <br/>
       has {votes[selected]} votes <br/>
       <button onClick={onVote}>vote</button>
       <button onClick={onRandom}>next anecdote</button>
+
+      <h1>Anecdote with most votes</h1>
+      {anecdotes[maxIdx]} <br/>
+      has {votes[maxIdx]} votes <br/>
     </div>
   )
 }
