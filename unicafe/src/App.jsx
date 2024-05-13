@@ -101,13 +101,17 @@ const App = () => {
       <Button onClick={() => setBad(bad+1)} text="bad" /> <br/>
       <Header text="statistics"/>
 
-      <Statistics type="good" info={info}/>
-      <Statistics type="neutral" info={info}/>
-      <Statistics type="bad" info={info}/>
-      <Statistics type="all" info={info}/> <br/>
-      <Statistics type="average" info={info}/> <br/>
-      {/* positive {good * 100 / (good + bad + neutral)} % <br/> */}
-      <Statistics type="positive" info={info}/>
+      { (good != 0 || neutral != 0 || bad != 0) ?
+        <div>
+          <Statistics type="good" info={info}/>
+          <Statistics type="neutral" info={info}/>
+          <Statistics type="bad" info={info}/>
+          <Statistics type="all" info={info}/> <br/>
+          <Statistics type="average" info={info}/> <br/>
+          <Statistics type="positive" info={info}/>
+        </div> : <p>No feedback given</p>
+      }
+      
     </div>
   )
 }
