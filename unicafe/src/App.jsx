@@ -10,6 +10,7 @@ const Header = ({text}) => {
 }
 
 const Button = ({onClick, text}) => {
+  
   return (
     <button onClick={onClick}>
       {text}
@@ -17,62 +18,22 @@ const Button = ({onClick, text}) => {
   )
 }
 
-const Statistics = ({type, info}) => {
-  if (type == "all") {
-    return (
-      <>
-        {type + " "}   
-        {info.good + info.neutral + info.bad}
-      </>
-    )
-  }
-
-  if (type == "average") {
-    var average = (info.good - info.bad) / (info.good + info.neutral + info.bad)
-    //console.log(average)
-    return (
-      <>
-        {type + " "}
-        {average}
-      </>
-    )
-  }
-
-  if (type == "positive") {
-    return (
-      <>
-        {type + " "}
-        {info.good * 100 / (info.good + info.bad + info.neutral)} %
-      </>
-    )
-  }
-
-  if (type == "good") {
+const Statistics = ({info}) => {
+  if (info.good != 0 || info.neutral != 0 || info.bad != 0) {
     return (
       <div>
-        {type + " "}
-        {info.good}
+        good {info.good} <br/>
+        neutral {info.neutral} <br/>
+        bad {info.bad} <br/>
+        all {info.good + info.neutral + info.bad} <br/>
+        average {(info.good - info.bad) / (info.good + info.neutral + info.bad)} <br/>
+        positive {info.good * 100 / (info.good + info.bad + info.neutral)} %
       </div>
     )
   }
 
-  if (type == "neutral") {
-    return (
-      <div>
-        {type + " "}
-        {info.neutral}
-      </div>
-    )
-  }
-
-  if (type == "bad") {
-    return (
-      <div>
-        {type + " "}
-        {info.bad}
-      </div>
-    )
-  }
+  return <p>No feedback given</p>
+  
 }
 
 const App = () => {
@@ -86,13 +47,6 @@ const App = () => {
     bad: bad
   }
 
-  // const onGood = () => {
-  //   console.log("Its running")
-  //   setGood(good + 1)
-  // }
-
-  
-
   return (
     <div>
       <Header text="Give feedback" />
@@ -100,17 +54,7 @@ const App = () => {
       <Button onClick={() => setNeutral(neutral+1)} text="neutral" /> 
       <Button onClick={() => setBad(bad+1)} text="bad" /> <br/>
       <Header text="statistics"/>
-
-      { (good != 0 || neutral != 0 || bad != 0) ?
-        <div>
-          <Statistics type="good" info={info}/>
-          <Statistics type="neutral" info={info}/>
-          <Statistics type="bad" info={info}/>
-          <Statistics type="all" info={info}/> <br/>
-          <Statistics type="average" info={info}/> <br/>
-          <Statistics type="positive" info={info}/>
-        </div> : <p>No feedback given</p>
-      }
+      <Statistics info={info}/>
       
     </div>
   )
