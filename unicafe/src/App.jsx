@@ -20,23 +20,26 @@ const Button = ({onClick, text}) => {
 
 const StatisticLine = ({type, toDisplay}) => {
   return (
-    <div>
-      {type} {toDisplay}
-    </div>
+    <tbody>
+      <tr>
+        <td>{type}</td> 
+        <td>{toDisplay}</td>
+      </tr>
+    </tbody>
   )
 }
 
 const Statistics = ({info}) => {
   if (info.good != 0 || info.neutral != 0 || info.bad != 0) {
     return (
-      <div>
+      <table>
         <StatisticLine type="good" toDisplay={info.good}/>
         <StatisticLine type="neutral" toDisplay={info.neutral}/>
         <StatisticLine type="bad" toDisplay={info.bad}/>
         <StatisticLine type="all" toDisplay={info.good + info.neutral + info.bad}/>
         <StatisticLine type="average" toDisplay={(info.good - info.bad) / (info.good + info.neutral + info.bad)}/>
         <StatisticLine type="positive" toDisplay={info.good * 100 / (info.good + info.bad + info.neutral) + " %"}/>
-      </div>
+      </table>
     )
   }
 
