@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    server-->>browser: Message containing "note created"
+    deactivate server
+
+    
+
+    Note right of browser: Since this is an SPA, the page isn't refreshed, and the data is updated 
+    Note right of browser: in real time, and no futher requests are made
+
+    %% this is the exact same because the only difference between the multi page, and single page
+    %% is how it handles form submission
+    %% hence why this chart is the same as the one from the course notes
