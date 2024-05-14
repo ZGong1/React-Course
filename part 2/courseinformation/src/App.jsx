@@ -14,12 +14,20 @@ const Content = ({ parts }) =>
     }     
   </>
 
+const Sum = ({parts}) => {
+  return (
+    <b>
+      total of {parts.reduce((acc, part) => acc+=part.exercises, 0)} exercises
+    </b>
+  )
+}
 
 const Course = ({courses}) => {
   return (
     <div>
       <Header course="Half Stack application development"/>
       <Content parts={courses.parts}/>
+      <Sum parts={courses.parts}/>
     </div>
   )
 }
