@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 
 const App = () => {
@@ -10,7 +13,8 @@ const App = () => {
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [toShow, setToShow] = useState([...persons])
+  const [searchValue, setSearchvalue] = useState('')
+  var toShow = persons.filter(item => item.name.toUpperCase().includes( searchValue ))
 
   
   // persons.filter(item => !(item.name.toUpperCase().indexOf("A")))
@@ -30,20 +34,24 @@ const App = () => {
   }
 
   const handleSearch = e => {
-    setToShow(persons.filter(item => item.name.toUpperCase().includes( e.target.value.toUpperCase() )))
+    setSearchvalue(e.target.value.toUpperCase())
     //console.log("toShow is now: ", toShow)
   }
+
+  
 
 
 
   return (
     <div>
+
       <h2>Phonebook</h2>
-      filter shown with <input onChange={handleSearch}/>
+      <Filter handler={handleSearch}/>
 
       <h2>Add a new</h2>
+      <PersonForm addName={addName} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} />
 
-      <form onSubmit={addName}>
+      {/* <form onSubmit={addName}>             // addName, newName, setNewName, newNumber, setNewNumber
         <div>
           name: <input value={newName} onChange={e => setNewName(e.target.value)}/>
         </div>
@@ -53,9 +61,12 @@ const App = () => {
         <div>
           <button type="submit">add</button>
         </div>
-      </form>
+      </form> */}
+
+
       <h2>Numbers</h2>
-      {toShow.map(item => <p key={item.name}>{item.name} {item.number}</p>)}
+      <Persons toShow={toShow}/>
+      {/* {toShow.map(item => <p key={item.name}>{item.name} {item.number}</p>)} */}
 
 
       {/* DEBUG */}
