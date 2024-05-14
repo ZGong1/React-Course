@@ -25,7 +25,7 @@ const Sum = ({parts}) => {
 const Course = ({courses}) => {
   return (
     <div>
-      <Header course="Half Stack application development"/>
+      <Header course={courses.name}/>
       <Content parts={courses.parts}/>
       <Sum parts={courses.parts}/>
     </div>
@@ -34,29 +34,59 @@ const Course = ({courses}) => {
 
 
 const App = () => {
-  const course = {
-    id: 1,
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10,
-        id: 1
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7,
-        id: 2
-      },
-      {
-        name: 'State of a component',
-        exercises: 14,
-        id: 3
-      }
-    ]
-  }
+  const course = [
+    {
+      name: 'Half Stack application development',
+      id: 1,
+      parts: [
+        {
+          name: 'Fundamentals of React',
+          exercises: 10,
+          id: 1
+        },
+        {
+          name: 'Using props to pass data',
+          exercises: 7,
+          id: 2
+        },
+        {
+          name: 'State of a component',
+          exercises: 14,
+          id: 3
+        },
+        {
+          name: 'Redux',
+          exercises: 11,
+          id: 4
+        }
+      ]
+    }, 
+    {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
 
-  return <Course courses={course} />
+  return (
+    <div>
+      {course.map((item) => {
+        return <Course key={item.id} courses={item}/>
+      })}
+
+    </div>
+  )
 }
 
 export default App
