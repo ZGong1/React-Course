@@ -3,10 +3,17 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' , number: '123-456-7890'}
-  ]) 
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+  ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [toShow, setToShow] = useState([...persons])
+
+  
+  // persons.filter(item => !(item.name.toUpperCase().indexOf("A")))
 
   const addName = e => {
     e.preventDefault()
@@ -22,9 +29,20 @@ const App = () => {
     setNewNumber('')
   }
 
+  const handleSearch = e => {
+    setToShow(persons.filter(item => item.name.toUpperCase().includes( e.target.value.toUpperCase() )))
+    //console.log("toShow is now: ", toShow)
+  }
+
+
+
   return (
     <div>
       <h2>Phonebook</h2>
+      filter shown with <input onChange={handleSearch}/>
+
+      <h2>Add a new</h2>
+
       <form onSubmit={addName}>
         <div>
           name: <input value={newName} onChange={e => setNewName(e.target.value)}/>
@@ -37,7 +55,10 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(item => <p key={item.name}>{item.name} {item.number}</p>)}
+      {toShow.map(item => <p key={item.name}>{item.name} {item.number}</p>)}
+
+
+      {/* DEBUG */}
     </div>
   )
 }
