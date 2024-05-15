@@ -36,11 +36,16 @@ const App = () => {
     setNewName('')
     setNewNumber('')
 
-    jsonService.create(newObj)
+    jsonService.create(newObj).then(() => console.log("test"))
   }
 
   const handleSearch = e => setSearchvalue(e.target.value.toUpperCase())
 
+  const onDelete = id => {
+    jsonService.remove(id).then((response) => {console.log(response)})
+    var newPersons = persons.filter(item => item.id !== id)
+    setPersons(newPersons)
+  }
   
 
 
@@ -55,7 +60,7 @@ const App = () => {
       <PersonForm addName={addName} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} />
 
       <h2>Numbers</h2>
-      <Persons toShow={toShow}/>
+      <Persons toShow={toShow} onDelete={onDelete}/>
     
     </div>
   )
