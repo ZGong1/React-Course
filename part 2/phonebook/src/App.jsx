@@ -27,7 +27,17 @@ const App = () => {
     e.preventDefault()
    
     if (persons.some(item => item.name === newName)) {
-      alert(`${newName} is already added to the phonebook`)
+      if (!window.confirm(`${newName} is already added to the phonebook, replace the old number with the new one?`))
+        return
+      
+      // code will run if name is already in book, and alert is confirmed
+      var personToEdit = persons.find(item => item.name === newName)
+      var toReplace = {...personToEdit, number: newNumber}
+      console.log("personToEdit: ", toReplace)
+      jsonService.replace(toReplace).then(() => {
+        setPersons( persons.map(item => toReplace.id !== item.id ? item : toReplace) )
+      })
+
       return
     }
 
@@ -42,9 +52,14 @@ const App = () => {
   const handleSearch = e => setSearchvalue(e.target.value.toUpperCase())
 
   const onDelete = id => {
-    jsonService.remove(id).then((response) => {console.log(response)})
-    var newPersons = persons.filter(item => item.id !== id)
-    setPersons(newPersons)
+
+    var userResponse = window.confirm(`Are you sure you would like to delete the entry?`)
+
+    if (userResponse) {
+      jsonService.remove(id).then((response) => {console.log(response)})
+      var newPersons = persons.filter(item => item.id !== id)
+      setPersons(newPersons)
+    }
   }
   
 
