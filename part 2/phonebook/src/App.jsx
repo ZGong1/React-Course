@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import axios from 'axios'
+import jsonService from './services/jsonService'
 
 const baseUrl = "http://localhost:3001/persons"
 
@@ -35,7 +36,7 @@ const App = () => {
     setNewName('')
     setNewNumber('')
 
-    axios.post(baseUrl, newObj)
+    jsonService.create(newObj)
   }
 
   const handleSearch = e => setSearchvalue(e.target.value.toUpperCase())
