@@ -4,6 +4,7 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import axios from 'axios'
 
+const baseUrl = "http://localhost:3001/persons"
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -33,6 +34,8 @@ const App = () => {
     setPersons(persons.concat(newObj))
     setNewName('')
     setNewNumber('')
+
+    axios.post(baseUrl, newObj)
   }
 
   const handleSearch = e => setSearchvalue(e.target.value.toUpperCase())
