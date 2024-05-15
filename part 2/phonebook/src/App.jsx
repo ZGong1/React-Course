@@ -37,6 +37,8 @@ const App = () => {
       jsonService.replace(toReplace).then(() => {
         setPersons( persons.map(item => toReplace.id !== item.id ? item : toReplace) )
       })
+      setNewName('')
+      setNewNumber('')
 
       return
     }
