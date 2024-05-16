@@ -62,13 +62,18 @@ const App = () => {
 
   const handleSearch = e => setSearchvalue(e.target.value.toUpperCase())
 
-  const onDelete = id => {
+  const onDelete = (id, name) => {
 
     var userResponse = window.confirm(`Are you sure you would like to delete the entry?`)
 
     if (userResponse) {
       jsonService.remove(id)
-        .then((response) => {console.log(response)})
+        .then((response) => {
+          console.log(response)
+        }).catch(() => {
+          setErrorMessage([`Information of ${name} has already been removed from the server`, "red"])
+          setTimeout(() => setErrorMessage([null, null]), 5000)
+        })
       var newPersons = persons.filter(item => item.id !== id)
       setPersons(newPersons)
     }
