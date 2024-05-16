@@ -36,11 +36,11 @@ const App = () => {
       // code for confirmed change of number
       var personToEdit = persons.find(item => item.name === newName)
       var toReplace = {...personToEdit, number: newNumber}
-      console.log("personToEdit: ", toReplace)
-      jsonService.replace(toReplace).then(() => {
-        setPersons( persons.map(item => toReplace.id !== item.id ? item : toReplace) )
+      jsonService.replace(toReplace).then((response) => {
+        console.log("response.data", response.data)
+        setPersons( persons.map(item => toReplace.id !== item.id ? item : response.data) )
         setErrorMessage([`Changed ${newName}'s number`, "green"])
-        //setTimeout(() => setErrorMessage([null, null]), 5000)
+        setTimeout(() => setErrorMessage([null, null]), 5000)
         setNewName('')
         setNewNumber('')
       })
@@ -50,8 +50,11 @@ const App = () => {
 
     // new person added
     var newObj = { name: newName, number: newNumber }
-    setPersons(persons.concat(newObj))
-    jsonService.create(newObj).then(() => setErrorMessage([`Added ${newName}`, "green"]))
+    
+    jsonService.create(newObj).then((response) => {
+      setErrorMessage([`Added ${newName}`, "green"])
+      setPersons(persons.concat(response.data))
+    })
     setTimeout(() => setErrorMessage([null, null]), 5000)
     setNewName('')
     setNewNumber('')
