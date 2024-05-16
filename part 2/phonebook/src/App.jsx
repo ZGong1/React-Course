@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 import axios from 'axios'
 import jsonService from './services/jsonService'
 // testing on new pc
@@ -13,6 +14,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchValue, setSearchvalue] = useState('')
+  const [errorMessage, setErrorMessage] = useState([null, null])
   var toShow = persons.filter(item => item.name.toUpperCase().includes( searchValue ))
 
   useEffect(() => {
@@ -31,25 +33,28 @@ const App = () => {
       if (!window.confirm(`${newName} is already added to the phonebook, replace the old number with the new one?`))
         return
       
-      // code will run if name is already in book, and alert is confirmed
+      // code for confirmed change of number
       var personToEdit = persons.find(item => item.name === newName)
       var toReplace = {...personToEdit, number: newNumber}
       console.log("personToEdit: ", toReplace)
       jsonService.replace(toReplace).then(() => {
         setPersons( persons.map(item => toReplace.id !== item.id ? item : toReplace) )
+        setErrorMessage([`Changed ${newName}'s number`, "green"])
+        //setTimeout(() => setErrorMessage([null, null]), 5000)
+        setNewName('')
+        setNewNumber('')
       })
-      setNewName('')
-      setNewNumber('')
 
       return
     }
 
+    // new person added
     var newObj = { name: newName, number: newNumber }
     setPersons(persons.concat(newObj))
+    jsonService.create(newObj).then(() => setErrorMessage([`Added ${newName}`, "green"]))
+    setTimeout(() => setErrorMessage([null, null]), 5000)
     setNewName('')
     setNewNumber('')
-
-    jsonService.create(newObj).then(() => console.log("test"))
   }
 
   const handleSearch = e => setSearchvalue(e.target.value.toUpperCase())
@@ -59,7 +64,8 @@ const App = () => {
     var userResponse = window.confirm(`Are you sure you would like to delete the entry?`)
 
     if (userResponse) {
-      jsonService.remove(id).then((response) => {console.log(response)})
+      jsonService.remove(id)
+        .then((response) => {console.log(response)})
       var newPersons = persons.filter(item => item.id !== id)
       setPersons(newPersons)
     }
@@ -70,6 +76,8 @@ const App = () => {
 
   return (
     <div>
+
+      <Notification message={errorMessage}/>
 
       <h2>Phonebook</h2>
       <Filter handler={handleSearch}/>
