@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import axios from 'axios'
 import {useState} from 'react'
+import Countrylist from './Countrylist';
 
 
 function App() {
   const [searchString, setSearchString] = useState('')
   const [toShow, setToShow] = useState([])
-  const [apiData, setApiData] = useState([])
+  const [countryList, setCountryList] = useState([])
 
   var numOfMatches = toShow.length
 
@@ -14,13 +15,13 @@ function App() {
   useEffect(() => {
     axios.get("https://studies.cs.helsinki.fi/restcountries/api/all")
     .then(response => {
-      setApiData( response.data )
+      setCountryList( response.data.map(item => ({name: item.name.common, showToggle: false})))
     })
   }, [])
 
   //update toShow every time searchString changes
   useEffect(() => {
-    setToShow( apiData.filter(item => item.name.common.toLowerCase().includes(searchString.toLowerCase())) )
+    setToShow( countryList.filter(item => item.name.toLowerCase().includes(searchString.toLowerCase())) )
   }, [searchString])
 
   const onSearchChange = e => setSearchString(e.target.value)
@@ -30,16 +31,8 @@ function App() {
 
       find countries <input value={searchString} onChange={onSearchChange}></input> <br/>
 
-
-      {(numOfMatches <= 10) 
-        ? toShow.map(item => <p key={item.name.common}>{item.name.common}</p>) 
-        : "Too many matches, specify another filter"}
-
-
-      <br/><br/><br/>DEBUG: <br/>
-      numOfMatches: {numOfMatches} <br/>
-      
-
+      <Countrylist toShow={toShow} numOfMatches={numOfMatches}/>
+    
     </div>
   )
 }
