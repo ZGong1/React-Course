@@ -9,7 +9,7 @@ const Country = ({country}) => {
     const [flag, setFlag] = useState(null)
     
     useEffect(() => {
-        axios.get(`https://studies.cs.helsinki.fi/restcountries/api/name/${country.name}`)
+        axios.get(`https://studies.cs.helsinki.fi/restcountries/api/name/${country}`)
         .then(response => {
             setInfo(response.data)
             setLanguages( Object.values( response.data.languages ) )

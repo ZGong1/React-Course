@@ -31,7 +31,7 @@ function App() {
 
       find countries <input value={searchString} onChange={onSearchChange}></input> <br/>
 
-      <Countrylist toShow={toShow} numOfMatches={numOfMatches}/>
+      <Countrylist toShow={toShow} setToShow={setToShow} numOfMatches={numOfMatches}/>
     
     </div>
   )
