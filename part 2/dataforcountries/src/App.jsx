@@ -20,7 +20,7 @@ function App() {
 
   //update toShow every time searchString changes
   useEffect(() => {
-    setToShow( apiData.filter(item => item.name.common.includes(searchString)) )
+    setToShow( apiData.filter(item => item.name.common.toLowerCase().includes(searchString.toLowerCase())) )
   }, [searchString])
 
   const onSearchChange = e => setSearchString(e.target.value)
@@ -30,7 +30,7 @@ function App() {
 
       find countries <input value={searchString} onChange={onSearchChange}></input> <br/>
 
-      
+
       {(numOfMatches <= 10) 
         ? toShow.map(item => <p key={item.name.common}>{item.name.common}</p>) 
         : "Too many matches, specify another filter"}
