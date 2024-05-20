@@ -7,7 +7,7 @@ import axios from 'axios'
 import jsonService from './services/jsonService'
 // testing on new pc
 
-const baseUrl = "http://localhost:3001/persons"
+const baseUrl = "/api/persons"
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -18,7 +18,7 @@ const App = () => {
   var toShow = persons.filter(item => item.name.toUpperCase().includes( searchValue ))
 
   useEffect(() => {
-    var promise = axios.get("http://localhost:3001/persons")
+    var promise = axios.get("/api/persons")
 
     promise.then(response => setPersons(response.data))
   }, [])
